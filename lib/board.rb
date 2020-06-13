@@ -6,7 +6,7 @@ class Board
 
   private
 
-  attr_reader :squares, :last_move, :directions
+  attr_reader :squares, :last_move, :directions, :win_direction, :win_start
 
   public
 
@@ -33,37 +33,42 @@ class Board
     column = char.ord - 97
     return false unless column.between?(0, 6) && squares[column].length.between?(0, 5)
     @squares[column] << disc
-    @last_move = [column, squares[column].length - 1, disc]
+    # @last_move = [column, squares[column].length - 1, disc]
   end
 
-  def winning_direction
-    directions.each do |direction|
-      column = last_move[0]
-      row = last_move[1]
-      3.times do |i|
-        column += direction[0]
-        row += direction[1]
-        break unless column.between?(0, 6) && row.between?(0, 5) &&
-                     squares[column][row] == last_move[2]
-        return direction if i == 2
+  def check_for_win
+    squares.each_with_index do |column, column_index|
+      column.each_with_index do |square, row_index|
+        
+        directions.each do |direction|
+          column = column_index
+          row = row_index
+          3.times do |i|
+            column += direction[0]
+            row += direction[1]
+            break unless column.between?(0, 6) && row.between?(0, 5) &&
+                         squares[column][row] == square
+            if i == 2
+              @win_start = [column_index, row_index]
+              @win_direction = direction
+              return true
+            end
+          end
+        end
       end
     end
-    nil
+    false
   end
 
-  def set_win(direction)
-    column = last_move[0]
-    row = last_move[1]
-    star = last_move[2] == '◉'.yellow ? '★'.yellow : '★'.red
+  def set_win
+    column = win_start[0]
+    row = win_start[1]
+    star = squares[column][row] == '◉'.yellow ? '★'.yellow : '★'.red
     4.times do |i|
       @squares[column][row] = star
-      column += direction[0]
-      row += direction[1]
+      column += win_direction[0]
+      row += win_direction[1]
     end
-  end
-
-  def stalemate?
-    squares.all? { |col| col.length == 6 }
   end
 
 end

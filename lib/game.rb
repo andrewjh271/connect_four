@@ -43,12 +43,11 @@ class Game
       move = query_move(player)
       until board.move(player, move)
         move_up(2)
-        # clear_line
         puts "Please select a column not yet full.".red
         move = query_move(player)
       end
-      if winning_direction = board.winning_direction
-        board.set_win(winning_direction)
+      if board.check_for_win
+        board.set_win
         reset_and_display
         puts "#{player.name} wins!"
         return

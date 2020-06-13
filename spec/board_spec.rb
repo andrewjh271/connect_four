@@ -7,7 +7,7 @@ describe Board do
 
   subject { Board.new }
   before do 
-    allow($stdout).to receive(:write)
+    # allow($stdout).to receive(:write)
     @player = double(:player)
     allow(@player).to receive(:first?).and_return(true)
     @player2 = double(:player2)
@@ -77,23 +77,28 @@ describe Board do
     end
   end
 
-  describe '#winning_direction' do
-    it 'returns winning direction if line of four discs exists after last move' do
+  describe '#check_for_win' do
+    # before { win_start = double(:@win_start) }
+    
+    it 'returns true if row of 4 is on board' do
       4.times { subject.move(player, 'd') }
-      expect(subject.winning_direction).to eq [0, -1]
+      expect(subject.check_for_win).to be true
     end
 
-    it 'returns nil if no winning line exists' do
+    it 'returns false if no winning line exists' do
       3.times { subject.move(player, 'd') }
-      expect(subject.winning_direction).to be nil
+      expect(subject.check_for_win).to be false
     end
 
-    it 'returns winning direction for diagonal' do
-      subject.move(@player, 'c')
-      2.times { subject.move(player, 'd') }
+    it 'returns true for diagonal row' do
       3.times { subject.move(player, 'e') }
-      4.times { subject.move(player, 'f') }
-      expect(subject.winning_direction).to eq [-1, -1]
+      subject.move(player, 'd')
+      subject.move(player, 'c')
+      subject.move(player2, 'b')
+      subject.move(player2, 'c')
+      2.times { subject.move(player2, 'd') }
+      subject.move(player2, 'e')
+      expect(subject.check_for_win).to be true
     end
 
     it 'does not detect win from different colored discs' do
@@ -102,13 +107,13 @@ describe Board do
       3.times { subject.move(player2, 'e') }
       subject.move(player2, 'f')
       3.times { subject.move(player, 'f') }
-      expect(subject.winning_direction).to be nil
+      expect(subject.check_for_win).to be false
     end
 
     it 'does not accept rows that go out of bounds' do
       3.times { subject.move(player, 'a') }
       4.times { subject.move(player2, 'a') }
-      expect(subject.winning_direction).to be nil
+      expect(subject.check_for_win).to be false
     end
   end
 
@@ -117,11 +122,11 @@ describe Board do
       3.times { subject.move(player, 'e') }
       subject.move(player, 'd')
       subject.move(player, 'c')
-      subject.move(player2, 'c')
       subject.move(player2, 'b')
-      subject.move(player2, 'd')
+      subject.move(player2, 'c')
+      2.times { subject.move(player2, 'd') }
       subject.move(player2, 'e')
-      subject.set_win([-1, -1])
+      subject.set_win if subject.check_for_win
 
       expect { subject.display }.to output(
         "\n" \
