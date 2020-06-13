@@ -17,6 +17,7 @@ class Board
   end
 
   def display
+    puts
     5.downto(0) do |i|
       7.times do |j|
         print "┆ #{squares[j][i] ? squares[j][i] : ' '} "
@@ -50,7 +51,7 @@ class Board
     nil
   end
 
-  def display_win(direction)
+  def set_win(direction)
     column = last_move[0]
     row = last_move[1]
     star = last_move[2] == '◉'.yellow ? '★'.yellow : '★'.red
@@ -59,7 +60,6 @@ class Board
       column += direction[0]
       row += direction[1]
     end
-    display
   end
 
   def stalemate?

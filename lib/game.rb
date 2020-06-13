@@ -1,11 +1,15 @@
 require_relative 'player'
 require_relative 'board'
 require_relative 'color'
+require_relative 'escape_sequences'
+require 'pry'
 
 
 class Game
 
   attr_reader :board, :player1, :player2
+
+  include EscapeSequences
 
   def initialize
     @board = Board.new
@@ -22,32 +26,48 @@ class Game
     print "Select column for #{player.name}'s move: "
     column = gets.chomp
     until(/[abcdefg]/.match(column) &&  column.length == 1)
-      print "Select column for #{player.name}'s move (e.g., b): "
+      move_up(1)
+      clear_line
+      print "Select column for #{player.name}'s move (e.g., b): ".red
       column = gets.chomp
     end
     column
   end
 
   def play
+    board.display
+    puts
     turn = 0
-    loop do
+    42.times do
       player = turn.even? ? player1 : player2
-      board.display
       move = query_move(player)
       until board.move(player, move)
-        puts "That column is full. Please select a column that isn't."
+        move_up(2)
+        # clear_line
+        puts "Please select a column not yet full.".red
         move = query_move(player)
       end
       if winning_direction = board.winning_direction
-        board.display_win(winning_direction)
+        board.set_win(winning_direction)
+        reset_and_display
         puts "#{player.name} wins!"
-        return
-      elsif board.stalemate?
-        puts "Stalemate!"
         return
       end
       turn += 1
-      board.display
+      reset_and_display
     end
+    puts
+    reset_and_display
+    puts "Stalemate!"
+  end
+
+  private
+
+  def reset_and_display
+    move_up(16)
+    board.display
+    clear_line
+    puts
+    clear_line
   end
 end

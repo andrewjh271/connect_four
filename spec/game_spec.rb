@@ -21,7 +21,9 @@ describe Game do
       allow(subject).to receive(:gets).and_return('h', 'g')
       expect { subject.query_move(player) }.to output(
         "Select column for Andrew's move: " \
-        "Select column for Andrew's move (e.g., b): "
+        "\e[1A" \
+        "\e[2K" \
+        "\e[31mSelect column for Andrew's move (e.g., b): \e[0m"
       ).to_stdout
       expect(subject.query_move(player)).to eq 'g'
     end

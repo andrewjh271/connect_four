@@ -17,6 +17,7 @@ describe Board do
   describe '#display' do
     it 'displays empty board at beginning of game' do
       expect { subject.display }.to output(
+        "\n" \
         "┆   ┆   ┆   ┆   ┆   ┆   ┆   ┆\n" \
         "┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈\n" \
         "┆   ┆   ┆   ┆   ┆   ┆   ┆   ┆\n" \
@@ -36,6 +37,7 @@ describe Board do
     it 'displays board reflecting new move' do
       subject.move(player, 'd')
       expect { subject.display }.to output(
+        "\n" \
         "┆   ┆   ┆   ┆   ┆   ┆   ┆   ┆\n" \
         "┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈\n" \
         "┆   ┆   ┆   ┆   ┆   ┆   ┆   ┆\n" \
@@ -57,6 +59,7 @@ describe Board do
       2.times { subject.move(player2, 'd') }
       2.times { subject.move(player2, 'g') }
       expect { subject.display }.to output(
+        "\n" \
         "┆   ┆   ┆   ┆   ┆   ┆   ┆   ┆\n" \
         "┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈\n" \
         "┆   ┆   ┆   ┆ #{'◉'.red} ┆   ┆   ┆   ┆\n" \
@@ -109,8 +112,8 @@ describe Board do
     end
   end
 
-  describe '#display_win' do
-    it 'displays winning row' do
+  describe '#set_win' do
+    it 'sets winning row' do
       3.times { subject.move(player, 'e') }
       subject.move(player, 'd')
       subject.move(player, 'c')
@@ -118,9 +121,10 @@ describe Board do
       subject.move(player2, 'b')
       subject.move(player2, 'd')
       subject.move(player2, 'e')
-      subject.display_win([-1, -1])
+      subject.set_win([-1, -1])
 
       expect { subject.display }.to output(
+        "\n" \
         "┆   ┆   ┆   ┆   ┆   ┆   ┆   ┆\n" \
         "┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈\n" \
         "┆   ┆   ┆   ┆   ┆   ┆   ┆   ┆\n" \
