@@ -1,4 +1,5 @@
 require_relative 'color'
+require_relative 'player'
 require 'pry'
 
 class Board
@@ -41,8 +42,8 @@ class Board
       3.times do |i|
         column += direction[0]
         row += direction[1]
-        break unless squares[column][row] == last_move[2] &&
-                     column.between?(0, 6) && row.between?(0, 5)
+        break unless column.between?(0, 6) && row.between?(0, 5) &&
+                     squares[column][row] == last_move[2]
         return direction if i == 2
       end
     end

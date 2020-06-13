@@ -75,8 +75,6 @@ describe Board do
   end
 
   describe '#winning_direction' do
-
-
     it 'returns winning direction if line of four discs exists after last move' do
       4.times { subject.move(player, 'd') }
       expect(subject.winning_direction).to eq [0, -1]
