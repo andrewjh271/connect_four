@@ -1,9 +1,11 @@
+# frozen_string_literal: true
+
 require_relative 'color'
 require_relative 'player'
 require 'pry'
 
+# connect four board
 class Board
-
   private
 
   attr_reader :squares, :last_move, :directions, :win_direction, :win_start
@@ -20,7 +22,7 @@ class Board
     puts
     5.downto(0) do |i|
       7.times do |j|
-        print "┆ #{squares[j][i] ? squares[j][i] : ' '} "
+        print "┆ #{squares[j][i] || ' '} "
       end
       puts '┆'
       puts '┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈'
@@ -32,14 +34,13 @@ class Board
     disc = player.first? ? '◉'.yellow : '◉'.red
     column = char.ord - 97
     return false unless column.between?(0, 6) && squares[column].length.between?(0, 5)
+
     @squares[column] << disc
-    # @last_move = [column, squares[column].length - 1, disc]
   end
 
   def check_for_win
     squares.each_with_index do |column, column_index|
       column.each_with_index do |square, row_index|
-        
         directions.each do |direction|
           column = column_index
           row = row_index
@@ -48,11 +49,11 @@ class Board
             row += direction[1]
             break unless column.between?(0, 6) && row.between?(0, 5) &&
                          squares[column][row] == square
-            if i == 2
-              @win_start = [column_index, row_index]
-              @win_direction = direction
-              return true
-            end
+            next unless i == 2
+
+            @win_start = [column_index, row_index]
+            @win_direction = direction
+            return true
           end
         end
       end
@@ -64,11 +65,10 @@ class Board
     column = win_start[0]
     row = win_start[1]
     star = squares[column][row] == '◉'.yellow ? '★'.yellow : '★'.red
-    4.times do |i|
+    4.times do
       @squares[column][row] = star
       column += win_direction[0]
       row += win_direction[1]
     end
   end
-
 end

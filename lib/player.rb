@@ -1,7 +1,9 @@
+# frozen_string_literal: true
+
 require_relative 'color'
 
+# Player class
 class Player
-
   private
 
   attr_reader :num

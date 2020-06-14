@@ -1,8 +1,9 @@
+# frozen_string_literal: true
+
 require './lib/game.rb'
 require './lib/player.rb'
 
 describe Game do
-
   attr_reader :board, :player
 
   # subject { Game.new }

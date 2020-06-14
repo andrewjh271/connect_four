@@ -1,13 +1,13 @@
+# frozen_string_literal: true
+
 require './lib/board.rb'
 require './lib/color.rb'
 
 describe Board do
-
   attr_reader :player, :player2
 
   subject { Board.new }
-  before do 
-    # allow($stdout).to receive(:write)
+  before do
     @player = double(:player)
     allow(@player).to receive(:first?).and_return(true)
     @player2 = double(:player2)
@@ -78,8 +78,6 @@ describe Board do
   end
 
   describe '#check_for_win' do
-    # before { win_start = double(:@win_start) }
-    
     it 'returns true if row of 4 is on board' do
       4.times { subject.move(player, 'd') }
       expect(subject.check_for_win).to be true
@@ -127,7 +125,6 @@ describe Board do
       2.times { subject.move(player2, 'd') }
       subject.move(player2, 'e')
       subject.set_win if subject.check_for_win
-
       expect { subject.display }.to output(
         "\n" \
         "┆   ┆   ┆   ┆   ┆   ┆   ┆   ┆\n" \
@@ -146,5 +143,4 @@ describe Board do
       ).to_stdout
     end
   end
-
 end
