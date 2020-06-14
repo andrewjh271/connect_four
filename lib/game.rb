@@ -39,9 +39,8 @@ class Game
   def play
     board.display
     puts
-    turn = 0
-    42.times do
-      player = turn.even? ? player1 : player2
+    42.times do |i|
+      player = i.even? ? player1 : player2
       move = query_move(player)
       until board.move(player, move)
         move_up(2)
@@ -54,7 +53,6 @@ class Game
         puts "#{player.name} wins!"
         return
       end
-      turn += 1
       reset_and_display
     end
     puts
