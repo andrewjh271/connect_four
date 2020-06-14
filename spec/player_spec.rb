@@ -4,7 +4,12 @@ describe Player do
   describe '#name' do
     it 'returns name' do
       player1 = Player.new('Andrew', 1)
-      expect(player1.name).to eq 'Andrew'
+      expect(player1.name).to eq "\e[33mAndrew\e[0m"
+    end
+
+    it 'returns name for 2nd player' do
+      player2 = Player.new('Andrew', 2)
+      expect(player2.name).to eq "\e[31mAndrew\e[0m"
     end
   end
 

@@ -18,7 +18,8 @@ class Game
   end
 
   def query_name(num)
-    print "Enter Player #{num}'s name: "
+    player = num == 1 ? "Player 1".yellow : "Player 2".red
+    print "Enter #{player}'s name: "
     gets.chomp
   end
 

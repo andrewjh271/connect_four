@@ -1,3 +1,5 @@
+require_relative 'color'
+
 class Player
 
   private
@@ -9,7 +11,7 @@ class Player
   attr_accessor :name
 
   def initialize(name, num)
-    @name = name
+    @name = num == 1 ? name.yellow : name.red
     @num = num
   end
 

@@ -147,26 +147,4 @@ describe Board do
     end
   end
 
-  describe '#stalemate?' do
-    before do
-      ('a'..'f').each do |col|
-        3.times do
-          subject.move(player, col)
-          subject.move(player2, col)
-        end
-      end
-    end
-
-    it 'returns false if board is not full' do
-      expect(subject.stalemate?).to be false
-    end
-
-    it 'returns true if board is full' do
-      3.times do
-        subject.move(player, 'g')
-        subject.move(player2, 'g')
-      end
-      expect(subject.stalemate?).to be true
-    end
-  end
 end
