@@ -6,7 +6,6 @@ require './lib/player.rb'
 describe Game do
   attr_reader :board, :player
 
-  # subject { Game.new }
   before do
     allow($stdout).to receive(:write)
     @player = double(:player, name: 'Andrew', first?: true)
