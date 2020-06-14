@@ -64,7 +64,7 @@ class Board
   def set_win
     column = win_start[0]
     row = win_start[1]
-    star = squares[column][row] == '◉'.yellow ? '★'.yellow : '★'.red
+    star = squares[column][row] == '◉'.yellow ? '⭑'.yellow : '⭑'.red
     4.times do
       @squares[column][row] = star
       column += win_direction[0]
