@@ -1,6 +1,6 @@
 # Connect Four
 
-Created as part of The Odin Project Curriculum. View on [Github](https://github.com/andrewjh271/connect_four).
+Created as part of The Odin Project Curriculum. View on [Repl.it](https://repl.it/@andrewjh271/connectfour#README.md)
 
 ### Functionality
 
@@ -14,5 +14,4 @@ There wasn't much to test for with the `Player` and `Game` classes — mostly te
 
 In my `game_spec.rb` file I originally set the `subject` to an instance of `Game`, and mocked it to receive `gets`, but this created problems when I tried to run all rspec files as a group, rather than just the one file. I know the issue relates to Kernel reading files from command line arguments, but I don't quite understand why Kernel was reached in the first place, since I was trying to mock the method. I eventually settled on using `allow_any_instance_of(Kernel).to receive(:gets)`, but this created new problems with the output. This was related to when `subject` was instantiated, but even knowing that I couldn't get it to behave correctly. I left a number of commented notes in this spec file, because I want to remember some of my troubleshooting process.
 
-
-
+-Andrew Hayhurst
